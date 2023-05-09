@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
-// @ts-ignore
-import { v4 as uuidv4 } from 'uuid';
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 interface UserData {
     id: string | null;
@@ -31,10 +30,12 @@ const useAnalytics = (): void => {
 
                 let id: string | null = localStorage.getItem('userId');
                 if (!id) {
-                    id = uuidv4();
-                    if (typeof id === "string") {
-                        localStorage.setItem('userId', id);
-                    }
+                    const fp = await FingerprintJS.load();
+
+                    const { visitorId } = await fp.get();
+
+                    id = visitorId
+                    localStorage.setItem('userId', id);
                 }
 
                 userData.current = { ip: data.ip, language: language, userAgent: userAgent, id: id, date: new Date(), path: path };
