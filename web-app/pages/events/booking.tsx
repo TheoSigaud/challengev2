@@ -1,13 +1,9 @@
 import Head from 'next/head'
 import HomeLayout from '@/components/layouts/Home'
-import Header from '@/components/home/Header'
-import Banner from '@/components/home/Banner'
-import About from '@/components/home/About'
-import Scroll from '@/components/home/scroll/Scroll';
 import {useEffect} from "react";
-import Slider from '@/components/home/Slider'
+import Booking from '@/components/events/Booking'
 
-export default function Home() {
+export default function Events() {
     useEffect(() =>
     {
         document.body.classList.add("bg-custom-light-orange");
@@ -23,11 +19,8 @@ export default function Home() {
             </Head>
 
             <HomeLayout>
-                <Header/>
-                <Scroll />
-                <About/>
-                <Slider/>
-                <Banner/>
+                <Booking/>
+                
             </HomeLayout>
         </>
 )
