@@ -1,31 +1,20 @@
-// src/analytics/analytics.controller.ts
-
-import { Controller, Get, Post, Body } from '@nestjs/common';
-import { AnalyticsService } from './analytics.service';
+import { Controller, Post, Get, Inject, Param, Body } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('analytics')
 export class AnalyticsController {
-    constructor(private readonly analyticsService: AnalyticsService) { }
 
-    @Post()
-    async createAnalyticsEvent(
-        @Body('userId') userId: string,
-        @Body('page') page: string,
-        @Body('ipAddress') ipAddress: string,
-        @Body('referrer') referrer: string,
-        @Body('userAgent') userAgent: string,
-    ): Promise<any> {
-        try {
-            const event = await this.analyticsService.createAnalyticsEvent(userId, page, ipAddress, referrer, userAgent);
-            return { message: 'Analytics event created', event };
-        } catch (error) {
-            return { message: 'Failed to create analytics event' };
-        }
-    }
+  constructor(@Inject('ANALYTICS_SERVICE') private client: ClientProxy) {}
 
-    @Get()
-    async getAnalyticsEvents(): Promise<any> {
-        const events = await this.analyticsService.getAnalyticsEvents();
-        return { count: events.length, events };
-    }
+
+  @Get('')
+  getAnalytics() {
+    return this.client.send({ cmd: 'analytics_get' },{});
+  }
+
+  @Post('save')
+  saveAnalytics(@Body() analytics:any){
+    return this.client.send({ cmd: 'analytics_postEvent' }, analytics);
+  }
+
 }

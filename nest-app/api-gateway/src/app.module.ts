@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
-import { MongooseModule } from '@nestjs/mongoose';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
 
@@ -10,11 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ConfigModule.forRoot(),
     AuthModule,
     CategoryModule,
-    MongooseModule.forRoot('mongodb://root:example@localhost/challengev2', {
-      authSource: 'admin',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    AnalyticsModule
   ],
   controllers: [],
   providers: []

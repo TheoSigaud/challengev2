@@ -5,21 +5,25 @@ import { AnalyticsController } from './analytics.controller';
 
 @Module({
 
-    imports: [ConfigModule.forRoot()],
-    controllers: [AnalyticsController],
-    providers: [{
+  imports: [ConfigModule.forRoot()],
+  controllers: [AnalyticsController],
+  providers: [{
 
-        provide: 'ANALYTICS_SERVICE',
-        inject: [ConfigService],
-        useFactory: (configService: ConfigService) =>
-            ClientProxyFactory.create({
-                transport: Transport.TCP,
-                options: {
-                    host: process.env.ANALYTICS_SERVICE_HOST,
-                    port: 4003,
-                },
-            }),
-    }],
+    provide: 'ANALYTICS_SERVICE',
+    inject: [ConfigService],
+    useFactory: (configService: ConfigService) =>
+      ClientProxyFactory.create({
+        transport: Transport.TCP,
+        options: {
+          host: process.env.ANALYTICS_SERVICE_HOST,
+          port: 4003,
+
+        },
+
+      }),
+
+  }],
+
 })
 
-export class CategoryModule { }
+export class AnalyticsModule {}
