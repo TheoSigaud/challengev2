@@ -3,12 +3,13 @@ import Head from 'next/head'
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import Notification from '../components/Notification';
 
 
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState("")
+    const [error, setError] = useState<string>("")
     const supabaseClient = useSupabaseClient()
 
     const handleLogin = async (event: any) => {
@@ -19,7 +20,7 @@ export default function Login() {
             password: password
         })
         if (error) {
-            console.error(error);
+            setError("Identifiants incorrect");
         } else {
             console.log(data); 
         }
@@ -44,7 +45,9 @@ export default function Login() {
                     <div
                         className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
                         <form className="space-y-6" onSubmit={handleLogin}>
-                            {error && <p>{error}</p>}
+                            {error && (
+                                <Notification message={error} type="error" />
+                            )}                            
                             <div>
                                 <label htmlFor="email"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
